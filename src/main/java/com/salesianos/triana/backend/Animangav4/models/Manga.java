@@ -43,6 +43,8 @@ public class Manga implements Serializable {
 
     private String posterPath;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
 
     private String publisher;

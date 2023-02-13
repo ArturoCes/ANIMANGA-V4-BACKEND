@@ -2,6 +2,7 @@ package com.salesianos.triana.backend.Animangav4.models;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NaturalId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.hibernate.annotations.Parameter;
@@ -38,11 +39,12 @@ public class User implements UserDetails {
                     )
             }
     )
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(columnDefinition = "uuid")
     private UUID id;
-
-    private String nickname;
-    private String name;
+    @NaturalId
+    @Column(unique = true, updatable = false)
+    private String username;
+    private String fullName;
     private String email;
     private String password;
     private String verifyPassword;
@@ -82,7 +84,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return nickname;
+        return username;
     }
 
     @Override

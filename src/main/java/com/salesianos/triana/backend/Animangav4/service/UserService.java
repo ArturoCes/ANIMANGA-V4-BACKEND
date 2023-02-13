@@ -23,7 +23,8 @@ public class UserService {
 
     public User createUser(CreateUserRequest createUserRequest, EnumSet<UserRole> roles) {
         User user = User.builder()
-                .nickname(createUserRequest.getNickname())
+                .username(createUserRequest.getUsername())
+                .fullName(createUserRequest.getFullName())
                 .password(passwordEncoder.encode(createUserRequest.getPassword()))
                 .image(createUserRequest.getImage())
                 .roles(roles)
@@ -56,7 +57,7 @@ public class UserService {
         return userRepository.findById(user.getId())
                 .map(u -> {
                     u.setImage(user.getImage());
-                    u.setName(user.getName());
+                    u.setFullName(user.getFullName());
                     return userRepository.save(u);
                 }).or(() -> Optional.empty());
 

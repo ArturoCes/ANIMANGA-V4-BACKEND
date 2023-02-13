@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
         private String password;
         private String verifyPassword;
         private String image;
-        private String nickname;
         private String fullName;
 
     }
