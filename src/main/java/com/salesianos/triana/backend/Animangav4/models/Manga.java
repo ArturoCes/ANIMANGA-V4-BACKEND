@@ -1,4 +1,4 @@
-package com.salesianos.triana.backed.Animangav4.models;
+package com.salesianos.triana.backend.Animangav4.models;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;

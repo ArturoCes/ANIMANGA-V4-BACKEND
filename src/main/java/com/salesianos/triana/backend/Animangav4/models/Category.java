@@ -1,4 +1,4 @@
-package com.salesianos.triana.backed.Animangav4.models;
+package com.salesianos.triana.backend.Animangav4.models;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -32,10 +32,7 @@ public class Category {
     )
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
-
     private String name;
-
-
     private String description;
 
 }
