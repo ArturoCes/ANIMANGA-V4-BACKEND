@@ -32,7 +32,7 @@ public class Manga implements Serializable {
                     )
             }
     )
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "uuid", updatable = false, nullable = false)
     private UUID id;
 
     private String name;
