@@ -15,7 +15,6 @@ public @interface PasswordsMatch {
     String message() default "Las contraseñas introducidas no coinciden";
     Class <?> [] groups() default {};
     Class <? extends Payload> [] payload() default {};
-
     String passwordField();
     String verifyPasswordField();
 
