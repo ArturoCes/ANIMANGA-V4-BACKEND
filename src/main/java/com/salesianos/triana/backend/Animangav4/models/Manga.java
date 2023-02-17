@@ -8,6 +8,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @EntityListeners(AuditingEntityListener.class)
@@ -43,13 +45,17 @@ public class Manga implements Serializable {
 
     private String posterPath;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
-
+    private String author;
+    @Builder.Default
+    @ManyToMany
+    @JoinTable(joinColumns = @JoinColumn(name = "book_id",
+            foreignKey = @ForeignKey(name = "FK_CATEGORIES_MANGA")),
+            inverseJoinColumns = @JoinColumn(name = "manga_id",
+                    foreignKey = @ForeignKey(name = "FK_MANGA_CATEGORIES")),
+            name = "categories"
+    )
+    private List<Category> categories = new ArrayList<>();
     private String publisher;
-
-
 
 
 }
