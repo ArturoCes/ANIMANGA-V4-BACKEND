@@ -18,15 +18,15 @@ public class MangaService {
     private final MangaDtoConverter mangaDtoConverter;
 
 
-
-    public Page<GetMangaDto> findAllMangas (Pageable pageable) {
+    public Page<GetMangaDto> findAllMangas(Pageable pageable) {
         Page<Manga> lista = repository.findAll(pageable);
 
-        if(lista.isEmpty()) {
+        if (lista.isEmpty()) {
             throw new EmptyMangaListException(Manga.class);
         } else {
             return lista.map(mangaDtoConverter::mangaToGetMangaDto);
         }
     }
+
 
 }

@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -32,10 +33,10 @@ import javax.servlet.http.HttpServletRequest;
 public class MangaController {
     private final MangaService mangaService;
     private final PaginationLinksUtils paginationLinksUtils;
-    @Operation(summary = "Listar todos los libros")
+    @Operation(summary = "Listar todos los mangas")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = "Se devuelve una lista con todos los libros",
+                    description = "Se devuelve una lista con todos los mangas",
                     content = {@Content(mediaType = "aplication/json",
                             schema = @Schema(implementation = Manga.class))}),
             @ApiResponse(responseCode = "404",
@@ -44,8 +45,8 @@ public class MangaController {
     })
     @GetMapping("/all")
     public ResponseEntity<Page<GetMangaDto>> findAllMangas (@PageableDefault(size = 10, page = 0) Pageable pageable,
-                                                           @AuthenticationPrincipal User user,
-                                                           HttpServletRequest request) {
+                                                            @AuthenticationPrincipal User user,
+                                                            @NotNull HttpServletRequest request) {
         Page<GetMangaDto> lista = mangaService.findAllMangas(pageable);
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString());
         return ResponseEntity.ok().header("link", paginationLinksUtils.createLinkHeader(lista, uriBuilder)).body(lista);

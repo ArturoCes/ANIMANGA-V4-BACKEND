@@ -46,16 +46,18 @@ public class Manga implements Serializable {
     private String posterPath;
 
     private String author;
+
+    private String publisher;
     @Builder.Default
     @ManyToMany
-    @JoinTable(joinColumns = @JoinColumn(name = "book_id",
+    @JoinTable(joinColumns = @JoinColumn(name = "manga_id",
             foreignKey = @ForeignKey(name = "FK_CATEGORIES_MANGA")),
-            inverseJoinColumns = @JoinColumn(name = "manga_id",
+            inverseJoinColumns = @JoinColumn(name = "category_id",
                     foreignKey = @ForeignKey(name = "FK_MANGA_CATEGORIES")),
             name = "categories"
     )
     private List<Category> categories = new ArrayList<>();
-    private String publisher;
+
 
 
 }

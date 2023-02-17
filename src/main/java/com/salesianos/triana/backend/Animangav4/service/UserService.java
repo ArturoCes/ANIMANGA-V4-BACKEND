@@ -22,13 +22,10 @@ public class UserService {
     private final UserRepository userRepository;
 
     public User createUser(CreateUserRequest createUserRequest, EnumSet<UserRole> roles) {
-        User user = User.builder()
-                .username(createUserRequest.getUsername())
-                .fullName(createUserRequest.getFullName())
+        User user = User.builder().username(createUserRequest
+                .getUsername()).fullName(createUserRequest.getFullName())
                 .password(passwordEncoder.encode(createUserRequest.getPassword()))
-                .image(createUserRequest.getImage())
-                .roles(roles)
-                .build();
+                .image(createUserRequest.getImage()).roles(roles).build();
 
         return userRepository.save(user);
     }
@@ -54,12 +51,11 @@ public class UserService {
     }
 
     public Optional<User> edit(User user) {
-        return userRepository.findById(user.getId())
-                .map(u -> {
-                    u.setImage(user.getImage());
-                    u.setFullName(user.getFullName());
-                    return userRepository.save(u);
-                }).or(() -> Optional.empty());
+        return userRepository.findById(user.getId()).map(u -> {
+            u.setImage(user.getImage());
+            u.setFullName(user.getFullName());
+            return userRepository.save(u);
+        }).or(() -> Optional.empty());
 
     }
 
@@ -67,11 +63,10 @@ public class UserService {
 
         // Aquí no se realizan comprobaciones de seguridad. Tan solo se modifica
 
-        return userRepository.findById(userId)
-                .map(u -> {
-                    u.setPassword(passwordEncoder.encode(newPassword));
-                    return userRepository.save(u);
-                }).or(() -> Optional.empty());
+        return userRepository.findById(userId).map(u -> {
+            u.setPassword(passwordEncoder.encode(newPassword));
+            return userRepository.save(u);
+        }).or(() -> Optional.empty());
 
     }
 
@@ -81,8 +76,7 @@ public class UserService {
 
     public void deleteById(UUID id) {
         // Prevenimos errores al intentar borrar algo que no existe
-        if (userRepository.existsById(id))
-            userRepository.deleteById(id);
+        if (userRepository.existsById(id)) userRepository.deleteById(id);
     }
 
     public boolean passwordMatch(User user, String clearPassword) {

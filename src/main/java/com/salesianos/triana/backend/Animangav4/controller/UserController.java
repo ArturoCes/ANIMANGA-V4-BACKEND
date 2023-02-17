@@ -36,6 +36,7 @@ public class UserController {
 
 
     @PostMapping("/auth/register")
+
     public ResponseEntity<UserResponse> createUserWithUserRole(@RequestBody CreateUserRequest createUserRequest) {
         User user = userService.createUserWithUserRole(createUserRequest);
 
