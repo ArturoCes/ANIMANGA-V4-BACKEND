@@ -74,6 +74,8 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/manga/**").hasRole("USER")
+                .antMatchers( "/download/*").anonymous()
+                .antMatchers("/category/**").hasRole("USER")
                 .antMatchers("/auth/register/admin").hasRole("ADMIN")
                 .anyRequest().authenticated();
 

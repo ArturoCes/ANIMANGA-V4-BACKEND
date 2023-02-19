@@ -21,21 +21,22 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
-    public User createUser(CreateUserRequest createUserRequest, EnumSet<UserRole> roles) {
+    public User createUser(CreateUserRequest createUserRequest, UserRole role) {
         User user = User.builder().username(createUserRequest
                 .getUsername()).fullName(createUserRequest.getFullName())
                 .password(passwordEncoder.encode(createUserRequest.getPassword()))
-                .image(createUserRequest.getImage()).roles(roles).build();
+                .image(createUserRequest.getImage())
+                .role(role).build();
 
         return userRepository.save(user);
     }
 
     public User createUserWithUserRole(CreateUserRequest createUserRequest) {
-        return createUser(createUserRequest, EnumSet.of(UserRole.USER));
+        return createUser(createUserRequest, UserRole.USER);
     }
 
     public User createUserWithAdminRole(CreateUserRequest createUserRequest) {
-        return createUser(createUserRequest, EnumSet.of(UserRole.ADMIN));
+        return createUser(createUserRequest, UserRole.ADMIN);
     }
 
     public List<User> findAll() {

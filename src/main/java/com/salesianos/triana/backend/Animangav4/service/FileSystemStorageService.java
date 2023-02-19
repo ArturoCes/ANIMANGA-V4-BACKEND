@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.annotation.PostConstruct;
 import java.io.ByteArrayInputStream;
@@ -145,5 +146,13 @@ public class FileSystemStorageService implements StorageService{
         } catch (IOException e) {
             throw new StorageException("Could not delete all");
         }
+    }
+
+    @Override
+    public String uriComplete(String filename) {
+        return ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/download/")
+                .path(filename)
+                .toUriString();
     }
 }

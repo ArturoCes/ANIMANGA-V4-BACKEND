@@ -20,7 +20,9 @@ public class CreateMangaDto {
     private String name;
     @NotBlank(message = "{manga.description.blank}")
     private String description;
-    private LocalDate release_date;
+    private LocalDate releaseDate;
+
+    private String author;
     @NotEmpty(message = "{manga.category.list.empty}")
     private List<Category> categories = new ArrayList<>();
 }

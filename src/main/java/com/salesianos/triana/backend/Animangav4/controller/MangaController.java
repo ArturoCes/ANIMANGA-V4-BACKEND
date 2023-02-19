@@ -1,7 +1,9 @@
 package com.salesianos.triana.backend.Animangav4.controller;
 
 
+import com.salesianos.triana.backend.Animangav4.dtos.CreateMangaDto;
 import com.salesianos.triana.backend.Animangav4.dtos.GetMangaDto;
+import com.salesianos.triana.backend.Animangav4.dtos.MangaDtoConverter;
 import com.salesianos.triana.backend.Animangav4.models.Manga;
 import com.salesianos.triana.backend.Animangav4.models.User;
 import com.salesianos.triana.backend.Animangav4.service.MangaService;
@@ -16,14 +18,15 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,6 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class MangaController {
     private final MangaService mangaService;
+    private final MangaDtoConverter mangaDtoConverter;
     private final PaginationLinksUtils paginationLinksUtils;
     @Operation(summary = "Listar todos los mangas")
     @ApiResponses(value = {
@@ -51,4 +55,23 @@ public class MangaController {
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString());
         return ResponseEntity.ok().header("link", paginationLinksUtils.createLinkHeader(lista, uriBuilder)).body(lista);
     }
+
+    @Operation(summary = "Crea un Manga")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Si se crea el manga correctamente",
+                    content = {@Content(mediaType = "aplication/json",
+                            schema = @Schema(implementation = Manga.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Error en los datos",
+                    content = @Content),
+    })
+    @PostMapping("/new")
+    public ResponseEntity<GetMangaDto> createManga(@Valid @RequestPart("manga") CreateMangaDto c,
+                                                 @RequestPart("file") MultipartFile file,
+                                                 @AuthenticationPrincipal User user) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(mangaDtoConverter.mangaToGetMangaDto(mangaService.save(c, file, user)));
+    }
+
 }

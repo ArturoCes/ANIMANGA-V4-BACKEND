@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -59,9 +60,7 @@ public class User implements UserDetails {
     private boolean credentialsNonExpired = true;
     @Builder.Default
     private boolean enabled = true;
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    private Set<UserRole> roles;
+    private UserRole role;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -71,12 +70,8 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream()
-                .map(role -> "ROLE_" + role)
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
-
     @Override
     public String getPassword() {
         return password;

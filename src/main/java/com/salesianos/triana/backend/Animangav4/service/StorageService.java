@@ -24,5 +24,8 @@ public interface StorageService {
 
     void deleteAll();
 
+    String uriComplete(String filename);
+
+
 
 }
