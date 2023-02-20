@@ -51,9 +51,9 @@ public class MangaController {
     public ResponseEntity<Page<GetMangaDto>> findAllMangas (@PageableDefault(size = 10, page = 0) Pageable pageable,
                                                             @AuthenticationPrincipal User user,
                                                             @NotNull HttpServletRequest request) {
-        Page<GetMangaDto> lista = mangaService.findAllMangas(pageable);
+        Page<GetMangaDto> list = mangaService.findAllMangas(pageable);
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString());
-        return ResponseEntity.ok().header("link", paginationLinksUtils.createLinkHeader(lista, uriBuilder)).body(lista);
+        return ResponseEntity.ok().header("link", paginationLinksUtils.createLinkHeader(list, uriBuilder)).body(list);
     }
 
     @Operation(summary = "Crea un Manga")
