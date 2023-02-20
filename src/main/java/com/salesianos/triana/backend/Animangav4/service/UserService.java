@@ -24,6 +24,7 @@ public class UserService {
     public User createUser(CreateUserRequest createUserRequest, UserRole role) {
         User user = User.builder().username(createUserRequest
                 .getUsername()).fullName(createUserRequest.getFullName())
+                .email(createUserRequest.getEmail())
                 .password(passwordEncoder.encode(createUserRequest.getPassword()))
                 .image(createUserRequest.getImage())
                 .role(role).build();

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class UserResponse {
 
     protected String id;
-    protected String name, image, username;
+    protected String name, image, username, fullName;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
     protected LocalDateTime createdAt;
@@ -27,6 +27,7 @@ public class UserResponse {
         return UserResponse.builder()
                 .id(user.getId().toString())
                 .username(user.getUsername())
+                .fullName(user.getFullName())
                 .image(user.getImage())
                 .name(user.getFullName())
                 .createdAt(user.getCreatedAt())

@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
         private String verifyPassword;
         private String image;
         private String fullName;
+        private String email;
 
     }
 
