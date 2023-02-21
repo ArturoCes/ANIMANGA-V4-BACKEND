@@ -27,6 +27,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -73,5 +74,20 @@ public class MangaController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(mangaDtoConverter.mangaToGetMangaDto(mangaService.save(c, file, user)));
     }
+    @Operation(summary = "Obtener un manga")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se encuentra el manga con el id proporcionado",
+                    content = {@Content(mediaType = "aplication/json",
+                            schema = @Schema(implementation = Manga.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se encontró ningún manga",
+                    content = @Content),
+    })
+    @GetMapping("/{id}")
+    public GetMangaDto findMangaById(@PathVariable UUID id) {
+        return mangaDtoConverter.mangaToGetMangaDto(mangaService.findById(id));
+    }
+
 
 }
