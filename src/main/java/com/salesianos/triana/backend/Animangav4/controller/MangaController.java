@@ -89,5 +89,40 @@ public class MangaController {
         return mangaDtoConverter.mangaToGetMangaDto(mangaService.findById(id));
     }
 
+    @Operation(summary = "Editar un manga")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se edita el manga correctamente",
+                    content = {@Content(mediaType = "aplication/json",
+                            schema = @Schema(implementation = Manga.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Error en los datos",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",
+                    description = "No se encontró el manga",
+                    content = @Content),
+    })
+    @PutMapping("/{id}")
+    public GetMangaDto editManga(@Valid @RequestPart("manga")CreateMangaDto c,
+                               @AuthenticationPrincipal User user,
+                               @PathVariable UUID id) {
+        return mangaDtoConverter.mangaToGetMangaDto(mangaService.editManga(c, user, id));
+    }
 
+
+    @Operation(summary = "Eliminar un manga")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Se elimina el manga correctamente",
+                    content = {@Content(mediaType = "aplication/json",
+                            schema = @Schema(implementation = Manga.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se encontró el manga",
+                    content = @Content),
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable UUID id){
+        mangaService.deleteManga(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

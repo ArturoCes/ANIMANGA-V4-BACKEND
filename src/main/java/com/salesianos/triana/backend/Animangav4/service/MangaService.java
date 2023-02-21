@@ -42,7 +42,7 @@ public class MangaService {
             throw new EntityNotFoundException(user.getId().toString(), User.class);
         } else {
             String uri = storageService.store(file);
-            uri = storageService.uriComplete(uri);
+         //   uri = storageService.uriComplete(uri);
             Manga m = mangaDtoConverter.createMangaDtoToManga(createMangaDto, uri);
             List<Category> list = new ArrayList<>();
             for (Category c : createMangaDto.getCategories()) {
