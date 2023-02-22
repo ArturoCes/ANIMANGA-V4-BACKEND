@@ -20,7 +20,6 @@ INSERT INTO manga (id, author, description, name, poster_path, publisher, releas
 
 
 
-
 INSERT INTO categories(manga_id, category_id)VALUES ('ac1b039a866e153381866e298c1d0003','ac1b039a866e153381866e298c1d0001');
 INSERT INTO categories(manga_id, category_id)VALUES ('ac1b039a866e153381866e298c1d0004','ac1b039a866e153381866e298c1d0001');
 INSERT INTO categories(manga_id, category_id)VALUES ('ac1b039a866e153381866e298c1d0005','ac1b039a866e153381866e298c1d0001');

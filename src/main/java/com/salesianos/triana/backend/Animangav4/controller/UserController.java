@@ -2,6 +2,7 @@ package com.salesianos.triana.backend.Animangav4.controller;
 
 
 import com.salesianos.triana.backend.Animangav4.dtos.*;
+import com.salesianos.triana.backend.Animangav4.models.Manga;
 import com.salesianos.triana.backend.Animangav4.models.User;
 import com.salesianos.triana.backend.Animangav4.security.jwt.access.JwtProvider;
 import com.salesianos.triana.backend.Animangav4.security.jwt.refresh.RefreshToken;
@@ -9,6 +10,11 @@ import com.salesianos.triana.backend.Animangav4.security.jwt.refresh.RefreshToke
 import com.salesianos.triana.backend.Animangav4.security.jwt.refresh.RefreshTokenRequest;
 import com.salesianos.triana.backend.Animangav4.security.jwt.refresh.RefreshTokenService;
 import com.salesianos.triana.backend.Animangav4.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +23,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,6 +38,7 @@ public class UserController {
     private final JwtProvider jwtProvider;
     private final RefreshTokenService refreshTokenService;
 
+    private final UserDtoConverter userDtoConverter;
 
     @PostMapping("/auth/register")
 
@@ -132,6 +137,32 @@ public class UserController {
         return null;
     }
 
+    @Operation(summary = "Obtener un usuario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se encuentra el usuario con el id proporcionado",
+                    content = {@Content(mediaType = "aplication/json",
+                            schema = @Schema(implementation = Manga.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se encontró ningún usuario",
+                    content = @Content),
+    })
+    @GetMapping("/{id}")
+    public GetUserDto findMangaById(@PathVariable UUID id) {
+        return userService.findById2(id);
+    }
 
+    @Operation(summary = "Se muestra los datos del usuario logueado")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se hace login",
+                    content = {@Content(mediaType = "aplication/json",
+                            schema = @Schema(implementation = User.class))}),
+    })
+    @GetMapping("/me")
+    public ResponseEntity<?> me(@AuthenticationPrincipal User user) {
+        Optional<User> u = userService.findByUsername(user.getUsername());
+        return ResponseEntity.ok(userDtoConverter.userToGetUserDto(u.get()));
+    }
 }
 

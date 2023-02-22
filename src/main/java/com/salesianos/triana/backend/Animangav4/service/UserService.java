@@ -2,6 +2,9 @@ package com.salesianos.triana.backend.Animangav4.service;
 
 
 import com.salesianos.triana.backend.Animangav4.dtos.CreateUserRequest;
+import com.salesianos.triana.backend.Animangav4.dtos.GetUserDto;
+import com.salesianos.triana.backend.Animangav4.dtos.UserDtoConverter;
+import com.salesianos.triana.backend.Animangav4.exception.EntityNotFoundException;
 import com.salesianos.triana.backend.Animangav4.models.User;
 import com.salesianos.triana.backend.Animangav4.models.UserRole;
 import com.salesianos.triana.backend.Animangav4.repository.UserRepository;
@@ -21,6 +24,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
+    private final UserDtoConverter userDtoConverter;
     public User createUser(CreateUserRequest createUserRequest, UserRole role) {
         User user = User.builder().username(createUserRequest
                 .getUsername()).fullName(createUserRequest.getFullName())
@@ -47,7 +51,13 @@ public class UserService {
     public Optional<User> findById(UUID id) {
         return userRepository.findById(id);
     }
-
+    public GetUserDto findById2(UUID id) {
+        Optional<User> u = userRepository.findById(id);
+        if(u.isPresent()){
+            return userDtoConverter.userToGetUserDto(u.get());
+        }
+        throw new EntityNotFoundException("No se ha encontrado el usuario con el id: "+id,User.class);
+    }
     public Optional<User> findByUsername(String username) {
         return userRepository.findFirstByUsername(username);
     }

@@ -14,8 +14,6 @@ import java.util.List;
 @Getter@Setter@Builder
 public class CreateMangaDto {
 
-
-
     @NotBlank(message = "{manga.name.blank}")
     private String name;
     @NotBlank(message = "{manga.description.blank}")
