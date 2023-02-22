@@ -16,6 +16,6 @@ public @interface EditEmail {
     Class <?> [] groups() default {};
     Class <? extends Payload> [] payload() default {};
 
-    String nickField();
+    String usernameField();
     String emailField();
 }

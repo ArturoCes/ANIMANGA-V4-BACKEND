@@ -10,7 +10,7 @@ import javax.validation.ConstraintValidatorContext;
 
 public class EditEmailValidator implements ConstraintValidator<EditEmail, Object> {
 
-    private String nickField;
+    private String usernameField;
     private String emailField;
 
     @Autowired
@@ -18,13 +18,13 @@ public class EditEmailValidator implements ConstraintValidator<EditEmail, Object
 
     @Override
     public void initialize(EditEmail constraintAnnotation) {
-        nickField = constraintAnnotation.nickField();
+        usernameField = constraintAnnotation.usernameField();
         emailField = constraintAnnotation.emailField();
     }
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext constraintValidatorContext) {
-        String username = (String) PropertyAccessorFactory.forBeanPropertyAccess(value).getPropertyValue(nickField);
+        String username = (String) PropertyAccessorFactory.forBeanPropertyAccess(value).getPropertyValue(usernameField);
         String email = (String) PropertyAccessorFactory.forBeanPropertyAccess(value).getPropertyValue(emailField);
 
         return !repository.existsByEmail(email) || email.equals(repository.existsEmailWithUsername(username));

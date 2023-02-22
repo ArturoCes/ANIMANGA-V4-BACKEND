@@ -12,7 +12,7 @@ public class UserDtoConverter {
         return User.builder()
                 .fullName(createUserDto.getFullName())
                 .image(uri)
-                .createdAt(createUserDto.getCreatedAt())
+                .password(createUserDto.getPassword())
                 .username(createUserDto.getUsername())
                 .build();
     }
@@ -23,6 +23,7 @@ public class UserDtoConverter {
                 .username(u.getUsername())
                 .createdAt(u.getCreatedAt())
                 .fullName(u.getFullName())
+                .email(u.getEmail())
                 .image(u.getImage())
                 .build();
     }

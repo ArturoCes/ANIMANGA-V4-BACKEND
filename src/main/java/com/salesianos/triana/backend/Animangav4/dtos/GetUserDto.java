@@ -14,6 +14,7 @@ public class GetUserDto {
 
     private UUID id;
     private String username;
+    private String email;
 
     private String image;
 

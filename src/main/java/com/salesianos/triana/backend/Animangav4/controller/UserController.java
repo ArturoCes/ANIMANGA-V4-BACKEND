@@ -26,6 +26,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -42,7 +43,7 @@ public class UserController {
 
     @PostMapping("/auth/register")
 
-    public ResponseEntity<UserResponse> createUserWithUserRole(@RequestBody CreateUserRequest createUserRequest) {
+    public ResponseEntity<UserResponse> createUserWithUserRole(@RequestBody @Valid CreateUserDto createUserRequest) {
         User user = userService.createUserWithUserRole(createUserRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(UserResponse.fromUser(user));
@@ -51,7 +52,7 @@ public class UserController {
     // Más adelante podemos manejar la seguridad de acceso a esta petición
 
     @PostMapping("/auth/register/admin")
-    public ResponseEntity<UserResponse> createUserWithAdminRole(@RequestBody CreateUserRequest createUserRequest) {
+    public ResponseEntity<UserResponse> createUserWithAdminRole(@RequestBody @Valid CreateUserDto createUserRequest) {
         User user = userService.createUserWithAdminRole(createUserRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(UserResponse.fromUser(user));
@@ -163,6 +164,25 @@ public class UserController {
     public ResponseEntity<?> me(@AuthenticationPrincipal User user) {
         Optional<User> u = userService.findByUsername(user.getUsername());
         return ResponseEntity.ok(userDtoConverter.userToGetUserDto(u.get()));
+    }
+    @Operation(summary = "Editar un usuario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se edita el usuario correctamente",
+                    content = {@Content(mediaType = "aplication/json",
+                            schema = @Schema(implementation = User.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Error en los datos",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",
+                    description = "No se encontró el usuario",
+                    content = @Content),
+    })
+    @PutMapping("/{id}")
+    public GetUserDto editUser(@RequestPart("user") @Valid EditUserDto e,
+                               @PathVariable UUID id,
+                               @AuthenticationPrincipal User user) {
+        return userDtoConverter.userToGetUserDto(userService.editUser(e, user, id));
     }
 }
 

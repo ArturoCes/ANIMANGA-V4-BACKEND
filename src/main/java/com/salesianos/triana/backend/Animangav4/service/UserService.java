@@ -1,10 +1,9 @@
 package com.salesianos.triana.backend.Animangav4.service;
 
 
-import com.salesianos.triana.backend.Animangav4.dtos.CreateUserRequest;
-import com.salesianos.triana.backend.Animangav4.dtos.GetUserDto;
-import com.salesianos.triana.backend.Animangav4.dtos.UserDtoConverter;
+import com.salesianos.triana.backend.Animangav4.dtos.*;
 import com.salesianos.triana.backend.Animangav4.exception.EntityNotFoundException;
+import com.salesianos.triana.backend.Animangav4.exception.ForbiddenException;
 import com.salesianos.triana.backend.Animangav4.models.User;
 import com.salesianos.triana.backend.Animangav4.models.UserRole;
 import com.salesianos.triana.backend.Animangav4.repository.UserRepository;
@@ -25,22 +24,23 @@ public class UserService {
     private final UserRepository userRepository;
 
     private final UserDtoConverter userDtoConverter;
-    public User createUser(CreateUserRequest createUserRequest, UserRole role) {
+
+    public User createUser(CreateUserDto createUserRequest, UserRole role) {
         User user = User.builder().username(createUserRequest
-                .getUsername()).fullName(createUserRequest.getFullName())
+                        .getUsername()).fullName(createUserRequest.getFullName())
                 .email(createUserRequest.getEmail())
                 .password(passwordEncoder.encode(createUserRequest.getPassword()))
-                .image(createUserRequest.getImage())
+                .image(createUserRequest.getImage() == null ? "https://i.ibb.co/stxTwKC/user.png" : createUserRequest.getImage())
                 .role(role).build();
 
         return userRepository.save(user);
     }
 
-    public User createUserWithUserRole(CreateUserRequest createUserRequest) {
+    public User createUserWithUserRole(CreateUserDto createUserRequest) {
         return createUser(createUserRequest, UserRole.USER);
     }
 
-    public User createUserWithAdminRole(CreateUserRequest createUserRequest) {
+    public User createUserWithAdminRole(CreateUserDto createUserRequest) {
         return createUser(createUserRequest, UserRole.ADMIN);
     }
 
@@ -51,24 +51,34 @@ public class UserService {
     public Optional<User> findById(UUID id) {
         return userRepository.findById(id);
     }
+
     public GetUserDto findById2(UUID id) {
         Optional<User> u = userRepository.findById(id);
-        if(u.isPresent()){
+        if (u.isPresent()) {
             return userDtoConverter.userToGetUserDto(u.get());
         }
-        throw new EntityNotFoundException("No se ha encontrado el usuario con el id: "+id,User.class);
+        throw new EntityNotFoundException("No se ha encontrado el usuario con el id: " + id, User.class);
     }
+
     public Optional<User> findByUsername(String username) {
         return userRepository.findFirstByUsername(username);
     }
 
-    public Optional<User> edit(User user) {
-        return userRepository.findById(user.getId()).map(u -> {
-            u.setImage(user.getImage());
-            u.setFullName(user.getFullName());
-            return userRepository.save(u);
-        }).or(() -> Optional.empty());
-
+    public User editUser(EditUserDto editUserDto, User user, UUID id) {
+        Optional<User> u = userRepository.findById(id);
+        if(u.isEmpty()){
+            throw new EntityNotFoundException(user.getId().toString(), User.class);
+        } else {
+            if(user.getId().equals(id) || user.getRole().equals(UserRole.ADMIN)) {
+                u.get().setFullName(editUserDto.getFullName());
+                if(editUserDto.getEmail()!=null) {
+                    u.get().setEmail(editUserDto.getEmail());
+                }
+                return userRepository.save(u.get());
+            } else {
+                throw new ForbiddenException("Permisos insuficientes");
+            }
+        }
     }
 
     public Optional<User> editPassword(UUID userId, String newPassword) {
