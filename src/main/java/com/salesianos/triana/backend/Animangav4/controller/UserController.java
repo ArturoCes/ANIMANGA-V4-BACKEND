@@ -185,18 +185,18 @@ public class UserController {
                                @AuthenticationPrincipal User user) {
         return userDtoConverter.userToGetUserDto(userService.editUser(e, user, id));
     }
-    @Operation(summary = "Subir avatar")
+    @Operation(summary = "Subir imagen")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
-                    description = "Se sube el avatar correctamente",
+                    description = "Se sube la imagen correctamente",
                     content = {@Content(mediaType = "aplication/json",
                             schema = @Schema(implementation = User.class))}),
             @ApiResponse(responseCode = "404",
-                    description = "No se encontro a usuario",
+                    description = "No se encontro al usuario",
                     content = @Content),
     })
     @PutMapping("/image/{id}")
-    public ResponseEntity<GetUserDto> uploadImage(@RequestPart("file") MultipartFile file,
+    public ResponseEntity<GetUserDto> uploadImage(@RequestPart("image") MultipartFile file,
                                                    @PathVariable UUID id,
                                                    @AuthenticationPrincipal User user) {
         return ResponseEntity.status(HttpStatus.OK).body(userDtoConverter
