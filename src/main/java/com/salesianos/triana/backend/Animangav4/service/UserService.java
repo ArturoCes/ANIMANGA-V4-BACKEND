@@ -10,6 +10,7 @@ import com.salesianos.triana.backend.Animangav4.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -22,7 +23,7 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-
+    private final StorageService storageService;
     private final UserDtoConverter userDtoConverter;
 
     public User createUser(CreateUserDto createUserRequest, UserRole role) {
@@ -80,6 +81,21 @@ public class UserService {
             }
         }
     }
+    public User uploadImage (MultipartFile file, User user, UUID id) {
+        Optional<User> u1 = userRepository.findById(id);
+        if(u1.isEmpty()){
+            throw new EntityNotFoundException(user.getId().toString(), User.class);
+        }else{
+            if(user.getId().equals(id) || user.getRole().equals(UserRole.ADMIN)) {
+                String uri = storageService.store(file);
+                u1.get().setImage(storageService.uriComplete(uri));
+                return userRepository.save(u1.get());
+            } else {
+                throw new ForbiddenException("Permisos insuficientes");
+            }
+        }
+    }
+
 
     public Optional<User> editPassword(UUID userId, String newPassword) {
 

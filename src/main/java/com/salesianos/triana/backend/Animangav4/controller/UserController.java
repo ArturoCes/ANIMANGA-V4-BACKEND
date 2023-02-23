@@ -24,6 +24,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
@@ -183,6 +184,24 @@ public class UserController {
                                @PathVariable UUID id,
                                @AuthenticationPrincipal User user) {
         return userDtoConverter.userToGetUserDto(userService.editUser(e, user, id));
+    }
+    @Operation(summary = "Subir avatar")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Se sube el avatar correctamente",
+                    content = {@Content(mediaType = "aplication/json",
+                            schema = @Schema(implementation = User.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "No se encontro a usuario",
+                    content = @Content),
+    })
+    @PutMapping("/image/{id}")
+    public ResponseEntity<GetUserDto> uploadImage(@RequestPart("file") MultipartFile file,
+                                                   @PathVariable UUID id,
+                                                   @AuthenticationPrincipal User user) {
+        return ResponseEntity.status(HttpStatus.OK).body(userDtoConverter
+                .userToGetUserDto(userService.uploadImage(file, user, id)));
+
     }
 }
 
