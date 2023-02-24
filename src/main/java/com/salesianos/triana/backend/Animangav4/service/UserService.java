@@ -120,4 +120,21 @@ public class UserService {
     public boolean passwordMatch(User user, String clearPassword) {
         return passwordEncoder.matches(clearPassword, user.getPassword());
     }
+    public User changePassword(PasswordDto passwordDto, User user) {
+        Optional<User> u = userRepository.findById(user.getId());
+
+        if(u.isEmpty()){
+            throw new EntityNotFoundException(user.getId().toString(), User.class);
+        } else {
+            if(passwordEncoder.matches(passwordDto.getPassword(), user.getPassword())){
+                if(passwordDto.getPasswordNew().equals(passwordDto.getPasswordNewVerify())){
+                    u.get().setPassword(passwordEncoder.encode(passwordDto.getPasswordNew()));
+                }
+                return userRepository.save(u.get());
+            }else {
+                throw new EntityNotFoundException(user.getId().toString(), User.class);
+            }
+
+        }
+    }
 }

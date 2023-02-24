@@ -101,24 +101,25 @@ public class UserController {
 
 
 
-    @PutMapping("/user/changePassword")
-    public ResponseEntity<UserResponse> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest,
-                                                       @AuthenticationPrincipal User loggedUser) {
-
-        try {
-            if (userService.passwordMatch(loggedUser, changePasswordRequest.getOldPassword())) {
-                Optional<User> modified = userService.editPassword(loggedUser.getId(), changePasswordRequest.getNewPassword());
-                if (modified.isPresent())
-                    return ResponseEntity.ok(UserResponse.fromUser(modified.get()));
-            } else {
-                throw new RuntimeException();
-            }
-        } catch (RuntimeException ex) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password Data Error");
-        }
-
-        return null;
+    @Operation(summary = "Cambiar contraseña")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se cambia la contraseña del usuario correctamente",
+                    content = {@Content(mediaType = "aplication/json",
+                            schema = @Schema(implementation = User.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "Error en los datos",
+                    content = @Content),
+            @ApiResponse(responseCode = "404",
+                    description = "No se encontró el usuario",
+                    content = @Content),
+    })
+    @PutMapping("/change")
+    public GetUserDto changePassword(@Valid @RequestPart("user") PasswordDto p,
+                                     @AuthenticationPrincipal User user) {
+        return userDtoConverter.userToGetUserDto(userService.changePassword(p, user));
     }
+
 
     @Operation(summary = "Obtener un usuario")
     @ApiResponses(value = {
