@@ -1,14 +1,20 @@
 # ANIMANGA-V4-BACKEND
+<img src="https://img.shields.io/badge/Spring--Framework-5.7-green"/> <img src="https://img.shields.io/badge/Apache--Maven-3.8.6-blue"/> <img src="https://img.shields.io/badge/Java-17.0-brightgreen"/>
+
+<div>
+ <img src="https://niixer.com/wp-content/uploads/2020/11/spring-boot.png" width="500" alt="Spring Logo"/>
+
+</div>
 Una API que gestiona la compra y venta de mangas.
 
-## Tecnología y lenguaje utilizado:
+**Tecnología y lenguaje utilizado:**
 Para el desarrollo de la aplicación, se han utilizado los siguientes elementos:
-- **Spring Boot** como framework.
-- **Java** para el desarrollo del código que atiende las peticiones a la API.
-- **PostgreSql** para la gestión de la base de datos.
 
-## Entorno de desarrollo:
-Para el desarrollo del proyecto, se ha utilizado el entorno de desarrollo **IntelliJ IDEA**.
+- **Spring Boot** como framework.
+- **InteliJIdea** como IDE.
+- **Java** para el desarrollo del código que atiende las peticiones a la API.
+- **PostMan** para las pruebas de las diferentes peticiones.
+- **Swagger UI** para la documentación.
 
 ## Pruebas:
 Para poder probar la API, tendremos dos vías principales:
