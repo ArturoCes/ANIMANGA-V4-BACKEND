@@ -7,7 +7,7 @@ Para el desarrollo de la aplicación, se han utilizado los siguientes elementos:
 - **Java** para el desarrollo del código que atiende las peticiones a la API.
 - **PostgreSql** para la gestión de la base de datos.
 
-## Entorno de desarrollo y ejecución:
+## Entorno de desarrollo:
 Para el desarrollo del proyecto, se ha utilizado el entorno de desarrollo **IntelliJ IDEA**.
 
 ## Pruebas:
