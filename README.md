@@ -1,14 +1,14 @@
 # ANIMANGA-V4-BACKEND
 Una API que gestiona la compra y venta de mangas.
 
-## Tecnología y lenguaje utilizado:
+**Tecnología y lenguaje utilizado:**
 Para el desarrollo de la aplicación, se han utilizado los siguientes elementos:
-- **Spring Boot** como framework.
-- **Java** para el desarrollo del código que atiende las peticiones a la API.
-- **PostgreSql** para la gestión de la base de datos.
 
-## Entorno de desarrollo:
-Para el desarrollo del proyecto, se ha utilizado el entorno de desarrollo **IntelliJ IDEA**.
+- **Spring Boot** como framework.
+- **InteliJIdea** como IDE.
+- **Java** para el desarrollo del código que atiende las peticiones a la API.
+- **PostMan** para las pruebas de las diferentes peticiones.
+- **Swagger UI** para la documentación.
 
 ## Pruebas:
 Para poder probar la API, tendremos dos vías principales:
