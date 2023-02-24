@@ -51,7 +51,7 @@ public class User implements UserDetails {
     private String verifyPassword;
     private String image;
 
-
+    private UserRole role;
     @Builder.Default
     private boolean accountNonExpired = true;
     @Builder.Default
@@ -60,7 +60,7 @@ public class User implements UserDetails {
     private boolean credentialsNonExpired = true;
     @Builder.Default
     private boolean enabled = true;
-    private UserRole role;
+
 
     @CreatedDate
     private LocalDateTime createdAt;

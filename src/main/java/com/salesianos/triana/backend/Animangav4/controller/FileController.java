@@ -1,4 +1,5 @@
 package com.salesianos.triana.backend.Animangav4.controller;
+
 import com.salesianos.triana.backend.Animangav4.dtos.FileResponse;
 import com.salesianos.triana.backend.Animangav4.service.StorageService;
 import com.salesianos.triana.backend.Animangav4.utils.MediaTypeUrlResource;
@@ -21,18 +22,15 @@ public class FileController {
     private final StorageService storageService;
 
 
-
     @PostMapping("/upload/files")
     public ResponseEntity<?> upload(@RequestPart("files") MultipartFile[] files) {
 
-        //FileResponse response = uploadFile(file);
 
         List<FileResponse> result = Arrays.stream(files)
                 .map(this::uploadFile)
                 .toList();
 
         return ResponseEntity
-                //.created(URI.create(response.getUri()))
                 .status(HttpStatus.CREATED)
                 .body(result);
     }
@@ -64,7 +62,7 @@ public class FileController {
 
 
     @GetMapping("/download/{filename:.+}")
-    public ResponseEntity<Resource> getFile(@PathVariable String filename){
+    public ResponseEntity<Resource> getFile(@PathVariable String filename) {
         MediaTypeUrlResource resource =
                 (MediaTypeUrlResource) storageService.loadAsResource(filename);
 

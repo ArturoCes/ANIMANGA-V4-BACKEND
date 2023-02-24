@@ -16,8 +16,8 @@ INSERT INTO manga (id, author, description, name, poster_path, publisher, releas
 INSERT INTO manga (id, author, description, name, poster_path, publisher, release_date) VALUES('ac1b039a866e153381866e298c1d0014','Gege Akutami', 'Manga de hechizeros','Jujutsu Kaisen','image9.jpg','Norma Editorial','2020-04-04');
 
 
-
-
+INSERT INTO users (id, username, password, full_name, email, image, account_non_expired, account_non_locked, credentials_non_expired, enabled, created_at,role) VALUES ('1ed3d641-b9e8-4a8b-bf13-f6caef2e36ce', 'admin', '{bcrypt}$2a$12$1hfnQew5F5qsdr5u/qbIze7/jt1asO58g8YmxJZeIKew8gWnYyyky', 'admin', 'admin@admin.admin', 'https://i.ibb.co/stxTwKC/user.png', true, true, true, true, '2022-02-01','1');
+INSERT INTO users (id, username, password, full_name, email, image, account_non_expired, account_non_locked, credentials_non_expired, enabled, created_at,role) VALUES ('1ed3d641-b9e8-4a8b-bf13-f6caef2e37ce', 'user', '{bcrypt}$2a$12$e53KEezkDm.zogcBWKwgeO.rgqrsOnWJQ1nmLTf79wsnVJ4Dcq.kW', 'user', 'user@admin.admin', 'https://i.ibb.co/stxTwKC/user.png', true, true, true, true, '2022-02-01','1');
 
 
 INSERT INTO categories(manga_id, category_id)VALUES ('ac1b039a866e153381866e298c1d0003','ac1b039a866e153381866e298c1d0001');

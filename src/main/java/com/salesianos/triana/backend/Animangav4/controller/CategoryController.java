@@ -28,10 +28,7 @@ import javax.validation.Valid;
 @RequestMapping("/category")
 public class CategoryController {
     private final CategoryService categoryService;
-    private final CategoryDtoConverter categoryDtoConverter;
 
-
-    private final PaginationLinksUtils paginationLinksUtils;
 
     @Operation(summary = "Crear una categoria")
     @ApiResponses(value = {
