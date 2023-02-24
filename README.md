@@ -3,8 +3,8 @@
 
 <div>
  <img src="https://niixer.com/wp-content/uploads/2020/11/spring-boot.png" width="500" alt="Spring Logo"/>
- <img src="https://styles.redditmedia.com/t5_2su6s/styles/communityIcon_4g1uo0kd87c61.png" width="300" alt="React Logo"/>
-</div
+
+</div>
 Una API que gestiona la compra y venta de mangas.
 
 **Tecnología y lenguaje utilizado:**
