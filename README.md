@@ -30,4 +30,7 @@ Para poder probar la API, tendremos dos vías principales:
 En la carpeta principal nos encontramos diferentes elementos a tener en cuenta:
 - **src**: Es la carpeta donde se aloja todo el código fuente utilizado en el desarrollo de la aplicación.
 - **animanga_collection.json**: Es una colección de Postman, que podremos importar en dicho programa, y que nos permitirá acceder a los distintos endpoints de la aplicación.
-
+## Usuarios  
+### usuario : contraseña
+ - user : user
+ - admin : admin
